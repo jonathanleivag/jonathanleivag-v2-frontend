@@ -3,6 +3,12 @@
   "editor.formatOnSave": true,
   "css.lint.unknownAtRules": "ignore",
   "cSpell.language": "en, es",
-  "cSpell.words": ["jonathanleivag", "nanostores", "tailwindcss", "tsconfigs"],
+  "cSpell.words": [
+    "jonathanleivag",
+    "nanostores",
+    "tailwindcss",
+    "tsconfigs",
+    "nanostores"
+  ],
   "commentTranslate.hover.enabled": true
 }
