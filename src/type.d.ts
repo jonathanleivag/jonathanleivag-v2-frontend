@@ -2,6 +2,8 @@ export interface LanguageSharedComponentProps {
   className?: string
 }
 
+export type useDataFetchResponse<T> = [T, boolean, string | null]
+
 /* -------------------------------------------------------------------------- */
 /*                                  Response                                  */
 /* -------------------------------------------------------------------------- */
