@@ -1,3 +1,7 @@
+---
+import '../styles/global.css'
+---
+
 <!doctype html>
 <html lang='en'>
   <head>
@@ -18,11 +22,7 @@
       <slot />
     </main>
     <footer class='h-[3.75rem] bg-yellow-200'>
-      <span>footer</span>
+      <span class=''>footer</span>
     </footer>
   </body>
-
-  <style is:global>
-    @import 'tailwindcss';
-  </style>
 </html>
