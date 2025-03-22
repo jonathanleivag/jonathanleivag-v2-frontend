@@ -1,4 +1,5 @@
 ---
+import HeaderSharedComponent from '../components/shared/header.shared.component'
 import NavbarSharedComponent from '../components/shared/navbar.shared.component'
 import '../styles/global.css'
 ---
@@ -13,10 +14,9 @@ import '../styles/global.css'
     <title>Astro Basics</title>
   </head>
   <body class='min-h-screen flex flex-col bg-secondary text-white'>
-    <header class='h-[18.75rem] w-full'>
-      <NavbarSharedComponent client:visible />
-      <h1>header</h1>
-    </header>
+    <HeaderSharedComponent client:only>
+      <NavbarSharedComponent client:only />
+    </HeaderSharedComponent>
     <main class='flex-1'>
       <slot />
     </main>
