@@ -4,11 +4,12 @@
   "css.lint.unknownAtRules": "ignore",
   "cSpell.language": "en, es",
   "cSpell.words": [
+    "Iwork",
+    "jetbrains",
     "jonathanleivag",
     "nanostores",
     "tailwindcss",
-    "tsconfigs",
-    "nanostores"
+    "tsconfigs"
   ],
   "commentTranslate.hover.enabled": true
 }

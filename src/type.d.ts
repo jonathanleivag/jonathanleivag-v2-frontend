@@ -4,6 +4,20 @@ export interface LanguageSharedComponentProps {
 
 export type useDataFetchResponse<T> = [T, boolean, string | null]
 
+export interface LogoSharedComponentProps {
+  className?: string
+}
+
+export interface MenuDesktopComponentProps {
+  data: Navbar
+  loading: boolean
+}
+
+export interface MenuMobileComponentProps extends MenuDesktopComponentProps {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                  Response                                  */
 /* -------------------------------------------------------------------------- */
