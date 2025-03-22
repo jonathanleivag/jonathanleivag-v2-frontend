@@ -18,6 +18,10 @@ export interface MenuMobileComponentProps extends MenuDesktopComponentProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>
 }
 
+export interface HeaderSharedComponentProps {
+  children: ReactNode
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                  Response                                  */
 /* -------------------------------------------------------------------------- */
