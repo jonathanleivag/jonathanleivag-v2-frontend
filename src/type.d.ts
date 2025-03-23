@@ -22,6 +22,13 @@ export interface HeaderSharedComponentProps {
   children: ReactNode
 }
 
+export interface technologies {
+  name: string
+  delay: string
+  icon: string
+  url: string
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                  Response                                  */
 /* -------------------------------------------------------------------------- */
@@ -184,16 +191,16 @@ export interface Skill {
 }
 
 export interface Iwork {
-  title?: string
-  works?: Work[]
+  title: string
+  works: Work[]
 }
 
 export interface Work {
-  name?: string
+  name: string
   jobTitle?: string
   skills?: string[]
-  dateStart?: string
-  dateEnd?: null | string
+  dateStart: string
+  dateEnd: null | string
 }
 
 /* -------------------------------------------------------------------------- */
