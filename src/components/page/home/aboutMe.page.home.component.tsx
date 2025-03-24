@@ -7,7 +7,7 @@ import { useStore } from '@nanostores/react'
 import { isLanguage } from '../../../store'
 import SocialSharedComponent from '../../shared/social.shared.component'
 
-const AboutMePageComponent: FC = () => {
+const AboutMePageHomeComponent: FC = () => {
   const $lang = useStore(isLanguage)
   const [data, loading] = useDataFetch<AboutMes>('about')
   const ref = useRef(null)
@@ -53,7 +53,7 @@ const AboutMePageComponent: FC = () => {
         <motion.div
           variants={container}
           initial='hidden'
-          animate={isInView === true ? 'show' : 'hidden'}
+          animate={isInView ? 'show' : 'hidden'}
           className='max-w-7xl mx-auto relative'
         >
           <motion.h2
@@ -134,4 +134,4 @@ const AboutMePageComponent: FC = () => {
   )
 }
 
-export default AboutMePageComponent
+export default AboutMePageHomeComponent

@@ -9,7 +9,7 @@ import { useStore } from '@nanostores/react'
 import { GiSkills } from 'react-icons/gi'
 import { MdCastForEducation } from 'react-icons/md'
 
-const ResumePageComponent: FC = () => {
+const ResumePageHomeComponent: FC = () => {
   const $lang = useStore(isLanguage)
   const ref = useRef(null)
   const isInView = useInView(ref, {
@@ -129,4 +129,4 @@ const ResumePageComponent: FC = () => {
   )
 }
 
-export default ResumePageComponent
+export default ResumePageHomeComponent

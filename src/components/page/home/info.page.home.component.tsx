@@ -4,7 +4,7 @@ import { useDataFetch } from '../../../hooks/useDataFetch.hook'
 import { useStore } from '@nanostores/react'
 import { isLanguage } from '../../../store'
 
-const InfoPageComponent: FC = () => {
+const InfoPageHomeComponent: FC = () => {
   const $lang = useStore(isLanguage)
   const [mounted, setMounted] = useState(false)
   const timelineRef = useRef<HTMLDivElement>(null)
@@ -267,4 +267,4 @@ const InfoPageComponent: FC = () => {
   )
 }
 
-export default InfoPageComponent
+export default InfoPageHomeComponent
