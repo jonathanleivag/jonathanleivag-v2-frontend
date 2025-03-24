@@ -1,11 +1,11 @@
 import type { FC } from 'react'
-import { useDataFetch } from '../../hooks/useDataFetch.hook'
-import type { AboutMes } from '../../type'
+import { useDataFetch } from '../../../hooks/useDataFetch.hook'
+import type { AboutMes } from '../../../type'
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { useStore } from '@nanostores/react'
-import { isLanguage } from '../../store'
-import SocialSharedComponent from '../shared/social.shared.component'
+import { isLanguage } from '../../../store'
+import SocialSharedComponent from '../../shared/social.shared.component'
 
 const AboutMePageComponent: FC = () => {
   const $lang = useStore(isLanguage)

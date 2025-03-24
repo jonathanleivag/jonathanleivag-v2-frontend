@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef, type FC } from 'react'
-import type { AboutMes, technologies } from '../../type'
-import { useDataFetch } from '../../hooks/useDataFetch.hook'
+import type { AboutMes, technologies } from '../../../type'
+import { useDataFetch } from '../../../hooks/useDataFetch.hook'
 import { useStore } from '@nanostores/react'
-import { isLanguage } from '../../store'
+import { isLanguage } from '../../../store'
 
 const InfoPageComponent: FC = () => {
   const $lang = useStore(isLanguage)
