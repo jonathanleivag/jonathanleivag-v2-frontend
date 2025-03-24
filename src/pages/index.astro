@@ -1,8 +1,10 @@
 ---
+import AboutMePageComponent from '../components/page/aboutMe.page.component'
 import InfoPageComponent from '../components/page/info.page.component'
 import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
   <InfoPageComponent client:only />
+  <AboutMePageComponent client:only />
 </Layout>
