@@ -86,6 +86,18 @@ const InfoPageHomeComponent: FC = () => {
     handlerSetTechnologies()
   }, [loading, data])
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isModalOpen])
+
   const Modal: FC = () => {
     if (!isModalOpen) return null
 
@@ -102,7 +114,7 @@ const InfoPageHomeComponent: FC = () => {
             </button>
           </div>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            {allTechnologies.map((tech) => (
+            {allTechnologies.map((tech, index) => (
               <a
                 key={tech.name}
                 href={tech.url}
@@ -110,11 +122,15 @@ const InfoPageHomeComponent: FC = () => {
                 rel='noreferrer'
                 className='flex flex-col items-center p-4 bg-primary/5 rounded-lg
                          hover:bg-primary/10 transition-all duration-300'
+                style={{
+                  animation: 'fadeInUp 0.3s ease-out forwards',
+                  animationDelay: `${index * 0.05}s`
+                }}
               >
                 <img
                   src={tech.icon}
                   alt={tech.name}
-                  className='w-12 h-12 object-contain'
+                  className='w-12 h-12 object-contain bg-white/80 p-1.5 rounded-md'
                 />
                 <span className='mt-2 text-sm text-center'>{tech.name}</span>
               </a>
@@ -179,6 +195,7 @@ const InfoPageHomeComponent: FC = () => {
                       href={technologies[0].url}
                       target='_blank'
                       rel='noreferrer'
+                      className='relative flex items-center justify-center'
                     >
                       <img
                         src={technologies[0].icon}
@@ -186,9 +203,9 @@ const InfoPageHomeComponent: FC = () => {
                         className='w-10 h-10 lg:w-16 lg:h-16 object-contain'
                       />
                       <span
-                        className='absolute -bottom-8 scale-0 transition-all rounded
+                        className='absolute -bottom-8 left-1/2 -translate-x-1/2 scale-0 transition-all rounded
                                                  bg-primary/10 p-2 text-xs group-hover:scale-100
-                                                 backdrop-blur-sm'
+                                                 backdrop-blur-sm whitespace-nowrap'
                       >
                         {technologies[0].name}
                       </span>
@@ -232,11 +249,11 @@ const InfoPageHomeComponent: FC = () => {
                             <img
                               src={tech.icon}
                               alt={tech.name}
-                              className='w-8 h-8 lg:w-12 lg:h-12 object-contain'
+                              className='w-8 h-8 lg:w-12 lg:h-12 object-contain bg-white/80 p-1 rounded-md'
                             />
                             <div
                               className='invisible group-hover:visible absolute -bottom-10
-                                       bg-primary/10 backdrop-blur-sm rounded px-3 py-1
+                                       bg-white/80 text-black backdrop-blur-sm rounded px-3 py-1
                                        text-xs transition-all duration-300 z-[40]
                                        whitespace-nowrap'
                             >
