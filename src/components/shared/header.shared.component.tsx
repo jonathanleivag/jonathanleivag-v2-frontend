@@ -26,7 +26,7 @@ const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
           <p className='text-primary text-xl lg:text-3xl mb-6 font-light tracking-[0.2em] uppercase'>
             {data.title}
           </p>
-          <h1 className='text-7xl lg:text-[8.5rem] font-bold leading-none mb-8 bg-gradient-to-r from-white via-primary/80 to-white bg-clip-text text-transparent max-w-5xl'>
+          <h1 className='text-4xl md:text-7xl lg:text-[8.5rem] font-bold leading-none mb-8 bg-gradient-to-r from-white via-primary/80 to-white bg-clip-text text-transparent max-w-5xl'>
             {data.name}.
           </h1>
           <h2 className='text-2xl lg:text-3xl text-white/80 max-w-2xl leading-relaxed mt-8 font-light'>
