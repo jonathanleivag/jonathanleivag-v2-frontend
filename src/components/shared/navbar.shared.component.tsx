@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import LogoSharedComponent from './logo.shared.component'
 import { useDataFetch } from '../../hooks/useDataFetch.hook'
 import type {
@@ -61,20 +61,26 @@ const MenuMobileComponent: FC<MenuMobileComponentProps> = ({
           <LogoSharedComponent className='block lg:hidden' />
         </div>
         <div className='w-full'>
-          <ul className='w-full flex flex-col text-center justify-center items-center text-2xl'>
+          <ul className='w-full flex flex-col text-center justify-center items-center text-4xl gap-8'>
             {!loading && (
               <>
                 {data.nav.map((nav, index) => (
                   <li
                     style={{ transitionDelay: `${index * 150}ms` }}
-                    className={`py-1 transition-all duration-500 ${
+                    className={`py-3 transition-all duration-500 ${
                       isOpen
                         ? 'translate-x-0 opacity-100'
                         : '-translate-x-full opacity-0'
                     }`}
                     key={`${nav}-${index}`}
                   >
-                    <a href='#'> {nav} </a>
+                    <a
+                      href='#'
+                      className='hover:text-primary transition-colors'
+                    >
+                      {' '}
+                      {nav}{' '}
+                    </a>
                   </li>
                 ))}
               </>
@@ -89,18 +95,40 @@ const MenuMobileComponent: FC<MenuMobileComponentProps> = ({
 const NavbarSharedComponent: FC = () => {
   const [data, loading] = useDataFetch<Navbar>('navbar')
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [hasScrolled, setHasScrolled] = useState<boolean>(false)
 
-  const handlerIsOpen = (): void => setIsOpen(true)
+  const handlerIsOpen = (): void => {
+    setIsOpen(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const handleClose = (): void => {
+    setIsOpen(false)
+    document.body.style.overflow = 'auto'
+  }
+
+  useEffect(() => {
+    const handleScroll = (): void => {
+      setHasScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
     <>
       <MenuMobileComponent
         isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        setIsOpen={handleClose}
         data={data}
         loading={loading}
       />
-      <nav className='h-[6.25rem] flex flex-row justify-center items-center'>
+      <nav
+        className={`fixed top-0 left-0 w-full h-[6.25rem] flex flex-row justify-center items-center z-40 transition-all duration-300 ${
+          hasScrolled ? 'bg-background/80 backdrop-blur-sm' : 'bg-transparent'
+        }`}
+      >
         <div className='h-[4.375rem] w-[90%] flex flex-row justify-center items-center'>
           <div className='w-[20%] h-full flex flex-row justify-center items-center overflow-hidden'>
             <LogoSharedComponent className='hidden lg:block' />
