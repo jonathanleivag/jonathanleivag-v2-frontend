@@ -29,6 +29,12 @@ export interface technologies {
   url: string
 }
 
+export interface IFormInput {
+  name: string
+  email: string
+  message: string
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                  Response                                  */
 /* -------------------------------------------------------------------------- */
