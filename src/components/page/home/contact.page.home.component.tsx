@@ -53,7 +53,7 @@ const ContactPageHomeComponent: FC = () => {
               <input
                 {...register('name', { required: true })}
                 type='text'
-                placeholder='John Doe'
+                placeholder={$lang === 'es' ? 'Juan Pérez' : 'John Doe'}
                 className='w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary outline-none transition-all duration-300 pl-12'
               />
               <span className='absolute left-4 top-1/2 -translate-y-1/2 text-gray-400'>
@@ -79,7 +79,7 @@ const ContactPageHomeComponent: FC = () => {
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
                 })}
                 type='email'
-                placeholder='john@example.com'
+                placeholder={$lang === 'es' ? 'juan@ejemplo.com' : 'john@example.com'}
                 className='w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary outline-none transition-all duration-300 pl-12'
               />
               <span className='absolute left-4 top-1/2 -translate-y-1/2 text-gray-400'>
@@ -107,7 +107,7 @@ const ContactPageHomeComponent: FC = () => {
             <motion.div whileFocus={{ scale: 1.01 }} className='relative'>
               <textarea
                 {...register('message', { required: true })}
-                placeholder='Your message here...'
+                placeholder={$lang === 'es' ? 'Tu mensaje aquí...' : 'Your message here...'}
                 rows={5}
                 className='w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary outline-none transition-all duration-300 pl-12 resize-none'
               />
