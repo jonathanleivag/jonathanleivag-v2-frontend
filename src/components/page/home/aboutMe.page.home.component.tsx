@@ -91,20 +91,23 @@ const AboutMePageHomeComponent: FC = () => {
                 </p>
               </motion.div>
 
-              <motion.div variants={item} className='grid grid-cols-2 gap-6'>
+              <motion.div
+                variants={item}
+                className='grid grid-cols-1 sm:grid-cols-2 gap-6'
+              >
                 <div className='relative group'>
                   <div className='absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
                   <motion.div
                     whileHover={{ y: -8 }}
-                    className='relative backdrop-blur-xl bg-white/5 p-8 rounded-3xl border border-white/10'
+                    className='relative backdrop-blur-xl bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10'
                   >
-                    <h3 className='text-2xl font-semibold mb-4 text-primary'>
+                    <h3 className='text-xl sm:text-2xl font-semibold mb-2 sm:mb-4 text-primary'>
                       {$lang === 'es' ? 'Experiencia' : 'Experience'}
                     </h3>
-                    <p className='text-lg text-foreground/80'>
+                    <p className='text-base sm:text-lg text-foreground/80'>
                       {$lang === 'es'
-                        ? '3 año de experiencia'
-                        : '3 year of experience'}
+                        ? '3 años de experiencia'
+                        : '3 years of experience'}
                     </p>
                   </motion.div>
                 </div>
@@ -113,12 +116,12 @@ const AboutMePageHomeComponent: FC = () => {
                   <div className='absolute inset-0 bg-gradient-to-r from-secondary/20 to-secondary/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
                   <motion.div
                     whileHover={{ y: -8 }}
-                    className='relative backdrop-blur-xl bg-white/5 p-8 rounded-3xl border border-white/10'
+                    className='relative backdrop-blur-xl bg-white/5 p-6 sm:p-8 rounded-3xl border border-white/10'
                   >
-                    <h3 className='text-2xl font-semibold mb-4 brightness-125'>
+                    <h3 className='text-xl sm:text-2xl font-semibold mb-2 sm:mb-4 brightness-125'>
                       {$lang === 'es' ? 'Especialidades' : 'Specialties'}
                     </h3>
-                    <p className='text-lg text-foreground/80'>
+                    <p className='text-base sm:text-lg text-foreground/80'>
                       {$lang === 'es'
                         ? 'Frontend & Backend'
                         : 'Frontend & Backend'}

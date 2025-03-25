@@ -14,7 +14,7 @@ const ResumePageHomeComponent: FC = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, {
     once: true,
-    amount: 0.3
+    amount: 0.1
   })
 
   const [data, loading] = useDataFetch<AboutMes>('about')
@@ -22,7 +22,7 @@ const ResumePageHomeComponent: FC = () => {
   return (
     <section
       ref={ref}
-      className='w-full max-w-6xl mx-auto py-16 px-4 overflow-hidden'
+      className='w-full max-w-6xl mx-auto py-8 sm:py-16 px-4 min-h-screen flex flex-col justify-center overflow-x-hidden'
     >
       {!loading && (
         <>
@@ -30,17 +30,19 @@ const ResumePageHomeComponent: FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
           >
-            <h2 className='text-4xl font-bold text-center mb-12'>
+            <h2 className='text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12'>
               {$lang === 'es' ? 'Mi viaje' : 'My Journey'}
             </h2>
           </motion.div>
-          <div className='grid md:grid-cols-2 gap-8'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8'>
+            {/* Education section */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className='bg-gradient-to-br from-purple-500/10 to-blue-500/10 p-6 rounded-xl'
+              className='bg-gradient-to-br from-purple-500/10 to-blue-500/10 p-4 sm:p-6 rounded-xl'
             >
               <div className='flex items-center gap-3 mb-6'>
                 <FaGraduationCap className='w-8 h-8 text-purple-500' />
@@ -66,11 +68,13 @@ const ResumePageHomeComponent: FC = () => {
                 ))}
               </ul>
             </motion.div>
+
+            {/* Courses section */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className='bg-gradient-to-br from-green-500/10 to-teal-500/10 p-6 rounded-xl'
+              className='bg-gradient-to-br from-green-500/10 to-teal-500/10 p-4 sm:p-6 rounded-xl'
             >
               <div className='flex items-center gap-3 mb-6'>
                 <MdCastForEducation className='w-8 h-8 text-green-500' />
@@ -92,17 +96,20 @@ const ResumePageHomeComponent: FC = () => {
               </ul>
             </motion.div>
 
+            {/* Skills section */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className='md:col-span-2 bg-gradient-to-br from-orange-500/10 to-red-500/10 p-6 rounded-xl'
+              className='col-span-1 md:col-span-2 bg-gradient-to-br from-orange-500/10 to-red-500/10 p-4 sm:p-6 rounded-xl'
             >
-              <div className='flex items-center gap-3 mb-6'>
-                <GiSkills className='w-8 h-8 text-orange-500' />
-                <h3 className='text-2xl font-semibold'>{data.skills.title}</h3>
+              <div className='flex items-center gap-3 mb-4 sm:mb-6'>
+                <GiSkills className='w-6 h-6 sm:w-8 sm:h-8 text-orange-500' />
+                <h3 className='text-xl sm:text-2xl font-semibold'>
+                  {data.skills.title}
+                </h3>
               </div>
-              <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
                 {data.skills.skills.map((skill, index) => (
                   <motion.div
                     key={`${index + 1}-${skill.title}`}
@@ -111,13 +118,17 @@ const ResumePageHomeComponent: FC = () => {
                     transition={{ duration: 0.3, delay: 0.8 + index * 0.1 }}
                     whileHover={{ scale: 1.05 }}
                     className={`bg-white/5 p-3 rounded-lg ${
-                      index + 1 === 3 ? 'col-span-2 md:col-span-1' : ''
+                      index + 1 === 3
+                        ? 'col-span-1 sm:col-span-2 md:col-span-1'
+                        : ''
                     }`}
                   >
-                    <h4 className='font-medium my-5 text-center'>
+                    <h4 className='font-medium my-3 sm:my-5 text-center text-base sm:text-lg'>
                       {skill.title}
                     </h4>
-                    <p className='text-gray-400'>{skill.content}</p>
+                    <p className='text-gray-400 text-sm sm:text-base'>
+                      {skill.content}
+                    </p>
                   </motion.div>
                 ))}
               </div>
