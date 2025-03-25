@@ -12,8 +12,10 @@ const LanguageSharedComponent: FC<LanguageSharedComponentProps> = ({
 
     if (langStorage !== null) {
       isLanguage.set(langStorage as Lang)
+      document.documentElement.lang = langStorage
     } else {
       localStorage.setItem('lang', $lang)
+      document.documentElement.lang = $lang
     }
 
     return () => {}
@@ -23,6 +25,7 @@ const LanguageSharedComponent: FC<LanguageSharedComponentProps> = ({
     const isLang: Lang = lang === 'en' ? 'es' : 'en'
     isLanguage.set(isLang)
     localStorage.setItem('lang', isLang)
+    document.documentElement.lang = isLang
   }
 
   return (
