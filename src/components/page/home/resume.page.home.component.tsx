@@ -69,7 +69,6 @@ const ResumePageHomeComponent: FC = () => {
               </ul>
             </motion.div>
 
-            {/* Courses section */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
@@ -96,7 +95,6 @@ const ResumePageHomeComponent: FC = () => {
               </ul>
             </motion.div>
 
-            {/* Skills section */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
