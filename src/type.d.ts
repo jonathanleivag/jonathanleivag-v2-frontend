@@ -217,7 +217,58 @@ export interface PinnedRepo {
 export interface IProject {
   pinned: PinnedRepo[]
   readme: string
-  info: RestEndpointMethodTypes['users']['getAuthenticated']['response']['data']
+  info: Iinfo
+}
+
+export interface Iinfo {
+  login?: string
+  id?: number
+  nodeID?: string
+  avatar_url?: string
+  gravatarID?: string
+  url?: string
+  html_url?: string
+  followersURL?: string
+  followingURL?: string
+  gistsURL?: string
+  starredURL?: string
+  subscriptionsURL?: string
+  organizationsURL?: string
+  reposURL?: string
+  eventsURL?: string
+  receivedEventsURL?: string
+  type?: string
+  userViewType?: string
+  siteAdmin?: boolean
+  name?: string
+  company?: string
+  blog?: string
+  location?: null
+  email?: null
+  hireable?: null
+  bio?: string
+  twitterUsername?: string
+  notificationEmail?: null
+  public_repos?: number
+  publicGists?: number
+  followers?: number
+  following?: number
+  createdAt?: Date
+  updatedAt?: Date
+  privateGists?: number
+  totalPrivateRepos?: number
+  ownedPrivateRepos?: number
+  diskUsage?: number
+  collaborators?: number
+  twoFactorAuthentication?: boolean
+  plan?: Plan
+}
+
+export interface Plan {
+  name?: string
+  space?: number
+  collaborators?: number
+  privateRepos?: number
 }
 
 /* -------------------------------------------------------------------------- */
