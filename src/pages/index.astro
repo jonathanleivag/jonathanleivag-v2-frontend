@@ -1,12 +1,14 @@
 ---
-import AboutMePageComponent from '../components/page/home/aboutMe.page.component'
-import InfoPageComponent from '../components/page/home/info.page.component'
-import ResumePageComponent from '../components/page/home/resume.page.component'
+import AboutMePageHomeComponent from '../components/page/home/aboutMe.page.home.component'
+import InfoPageHomeComponent from '../components/page/home/info.page.home.component'
+import PortfolioPageHomeComponent from '../components/page/home/portfolio.page.home.component'
+import ResumePageHomeComponent from '../components/page/home/resume.page.home.component'
 import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
-  <InfoPageComponent client:only />
-  <AboutMePageComponent client:only />
-  <ResumePageComponent client:only />
+  <InfoPageHomeComponent client:only />
+  <AboutMePageHomeComponent client:only />
+  <ResumePageHomeComponent client:only />
+  <PortfolioPageHomeComponent client:only />
 </Layout>
