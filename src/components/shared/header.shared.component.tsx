@@ -8,7 +8,10 @@ const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
   const [data, loading] = useDataFetch<Header>('header')
 
   return (
-    <header className='min-h-screen w-full flex flex-col justify-center relative overflow-hidden bg-background'>
+    <header
+      id='home'
+      className='min-h-screen w-full flex flex-col justify-center relative overflow-hidden bg-background'
+    >
       <div className='absolute top-0 left-0 w-full z-20'>{children}</div>
       <div className='absolute inset-0 bg-gradient-to-tr from-background via-primary/5 to-background' />
       <div className='absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(var(--primary-rgb),0.15),transparent_50%)]' />

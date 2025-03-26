@@ -21,6 +21,7 @@ const ResumePageHomeComponent: FC = () => {
 
   return (
     <section
+      id='summary'
       ref={ref}
       className='w-full max-w-6xl mx-auto py-8 sm:py-16 px-4 min-h-screen flex flex-col justify-center overflow-x-hidden'
     >

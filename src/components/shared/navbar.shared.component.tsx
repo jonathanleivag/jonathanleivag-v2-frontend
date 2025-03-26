@@ -14,14 +14,76 @@ const MenuDesktopComponent: FC<MenuDesktopComponentProps> = ({
   data,
   loading
 }) => {
+  const [activeHash, setActiveHash] = useState<string>(() => {
+    const hash = window.location.hash.slice(1)
+    return hash === '' ? 'home' : hash
+  })
+
+  useEffect(() => {
+    const handleHashChange = (): void => {
+      const hash = window.location.hash.slice(1)
+      setActiveHash(hash === '' ? 'home' : hash)
+    }
+
+    const observerOptions = {
+      threshold: 0.5
+    }
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]): void => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+          setActiveHash(id)
+          window.history.replaceState(null, '', `#${id}`)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions)
+
+    // Observe all sections
+    data.nav.forEach((nav) => {
+      const element = document.getElementById(nav.router)
+      if (element !== null) observer.observe(element)
+    })
+
+    window.addEventListener('hashchange', handleHashChange)
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange)
+      observer.disconnect()
+    }
+  }, [data.nav])
+
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    router: string
+  ): void => {
+    e.preventDefault()
+    const element = document.getElementById(router)
+    element?.scrollIntoView({ behavior: 'smooth' })
+    setTimeout(() => {
+      window.location.hash = router
+    }, 500)
+  }
+
   return (
     <div className='w-[80%] h-full flex flex-row justify-end items-center'>
       <ul className='flex-row gap-6 justify-center items-center text-xl hidden lg:flex'>
         {!loading && (
           <>
             {data.nav.map((nav, index) => (
-              <li key={`${nav}-${index}`}>
-                <a href='#'> {nav} </a>
+              <li key={`${nav.nav}-${index}`}>
+                <a
+                  href={`#${nav.router}`}
+                  onClick={(e) => handleClick(e, nav.router)}
+                  className={`relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100 ${
+                    activeHash === nav.router
+                      ? 'text-primary after:scale-x-100'
+                      : ''
+                  }`}
+                >
+                  {nav.nav}
+                </a>
               </li>
             ))}
           </>
@@ -40,6 +102,59 @@ const MenuMobileComponent: FC<MenuMobileComponentProps> = ({
   loading,
   data
 }) => {
+  const [activeHash, setActiveHash] = useState<string>(() => {
+    const hash = window.location.hash.slice(1)
+    return hash === '' ? 'home' : hash
+  })
+
+  useEffect(() => {
+    const handleHashChange = (): void => {
+      const hash = window.location.hash.slice(1)
+      setActiveHash(hash === '' ? 'home' : hash)
+    }
+
+    const observerOptions = {
+      threshold: 0.5
+    }
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]): void => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id
+          setActiveHash(id)
+          window.history.replaceState(null, '', `#${id}`)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions)
+
+    // Observe all sections
+    data.nav.forEach((nav) => {
+      const element = document.getElementById(nav.router)
+      if (element !== null) observer.observe(element)
+    })
+
+    window.addEventListener('hashchange', handleHashChange)
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange)
+      observer.disconnect()
+    }
+  }, [data.nav])
+
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    router: string
+  ): void => {
+    e.preventDefault()
+    const element = document.getElementById(router)
+    element?.scrollIntoView({ behavior: 'smooth' })
+    setIsOpen(false)
+    setTimeout(() => {
+      window.location.hash = router
+    }, 500)
+  }
+
   return (
     <section
       className={`fixed z-50 top-0 left-0 w-full h-full bg-background transition-transform duration-300 bg-secondary/90 lg:hidden ${
@@ -72,14 +187,16 @@ const MenuMobileComponent: FC<MenuMobileComponentProps> = ({
                         ? 'translate-x-0 opacity-100'
                         : '-translate-x-full opacity-0'
                     }`}
-                    key={`${nav}-${index}`}
+                    key={`${nav.nav}-${index}`}
                   >
                     <a
-                      href='#'
-                      className='hover:text-primary transition-colors'
+                      href={`#${nav.router}`}
+                      onClick={(e) => handleClick(e, nav.router)}
+                      className={`hover:text-primary transition-colors ${
+                        activeHash === nav.router ? 'text-primary' : ''
+                      }`}
                     >
-                      {' '}
-                      {nav}{' '}
+                      {nav.nav}
                     </a>
                   </li>
                 ))}

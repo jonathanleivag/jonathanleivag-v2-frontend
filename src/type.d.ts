@@ -291,10 +291,15 @@ export interface Header {
   imageUrl: string
 }
 
+export interface nav {
+  nav: string
+  router: string
+}
+
 export interface Navbar {
   _id: ObjectId
   lan: Lang
-  nav: string[]
+  nav: nav[]
   image: string
 }
 
