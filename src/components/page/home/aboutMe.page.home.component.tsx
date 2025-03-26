@@ -38,6 +38,7 @@ const AboutMePageHomeComponent: FC = () => {
 
   return (
     <motion.section
+      id='about'
       ref={ref}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

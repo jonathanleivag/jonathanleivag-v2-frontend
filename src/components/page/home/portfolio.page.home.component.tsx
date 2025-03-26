@@ -50,6 +50,7 @@ const PortfolioPageHomeComponent: FC = () => {
 
   return (
     <section
+      id='portfolio'
       ref={ref}
       className='min-h-screen py-20 px-4 bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl border border-gray-800'
     >

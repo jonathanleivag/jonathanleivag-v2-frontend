@@ -18,7 +18,10 @@ const ContactPageHomeComponent: FC = () => {
   }
 
   return (
-    <section className='w-full overflow-hidden min-h-screen flex rounded-2xl shadow-2xl border border-gray-800 items-center justify-center py-20 px-4 relative'>
+    <section
+      id='contact'
+      className='w-full overflow-hidden min-h-screen flex rounded-2xl shadow-2xl border border-gray-800 items-center justify-center py-20 px-4 relative'
+    >
       <div className='absolute inset-0'>
         <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] opacity-90' />
         <div className='absolute inset-0 mix-blend-overlay opacity-50'>
@@ -79,7 +82,9 @@ const ContactPageHomeComponent: FC = () => {
                   pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
                 })}
                 type='email'
-                placeholder={$lang === 'es' ? 'juan@ejemplo.com' : 'john@example.com'}
+                placeholder={
+                  $lang === 'es' ? 'juan@ejemplo.com' : 'john@example.com'
+                }
                 className='w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary outline-none transition-all duration-300 pl-12'
               />
               <span className='absolute left-4 top-1/2 -translate-y-1/2 text-gray-400'>
@@ -107,7 +112,9 @@ const ContactPageHomeComponent: FC = () => {
             <motion.div whileFocus={{ scale: 1.01 }} className='relative'>
               <textarea
                 {...register('message', { required: true })}
-                placeholder={$lang === 'es' ? 'Tu mensaje aquí...' : 'Your message here...'}
+                placeholder={
+                  $lang === 'es' ? 'Tu mensaje aquí...' : 'Your message here...'
+                }
                 rows={5}
                 className='w-full p-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary outline-none transition-all duration-300 pl-12 resize-none'
               />
