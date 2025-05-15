@@ -1,20 +1,40 @@
-import type { FC } from 'react'
-import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { useStore } from '@nanostores/react'
-import { isLanguage } from '../../../store'
-import type { IFormInput } from '../../../type'
+import type {FC} from 'react'
+import {motion} from 'framer-motion'
+import {useForm} from 'react-hook-form'
+import {useStore} from '@nanostores/react'
+import {isLanguage} from '../../../store'
+import type {IFormInput} from '../../../type'
+import {toast, Toaster} from "react-hot-toast";
 
 const ContactPageHomeComponent: FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+      reset
   } = useForm<IFormInput>()
   const $lang = useStore(isLanguage)
 
-  const onSubmit = (data: IFormInput): void => {
-    console.log(data)
+  const onSubmit = async (form: IFormInput): Promise<void> => {
+      try {
+        const response = await fetch('/api/contact',  {
+          method: 'POST',
+
+          body: JSON.stringify({...form, content: form.message}),
+        })
+        const data = await response.json()
+        if (data.error === null) {
+          toast.success(data.message)
+          reset()
+        } else {
+          toast.error(data.error)
+        }
+      } catch (e) {
+        if (e instanceof Error) {
+          console.error(e.message)
+          toast.error(e.message)
+        }
+      }
   }
 
   return (
@@ -22,6 +42,7 @@ const ContactPageHomeComponent: FC = () => {
       id='contact'
       className='w-full overflow-hidden min-h-screen flex rounded-2xl shadow-2xl border border-gray-800 items-center justify-center py-20 px-4 relative'
     >
+      <Toaster />
       <div className='absolute inset-0'>
         <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000_100%)] opacity-90' />
         <div className='absolute inset-0 mix-blend-overlay opacity-50'>
@@ -41,8 +62,8 @@ const ContactPageHomeComponent: FC = () => {
         </h2>
         <p className='text-gray-400 text-center mb-8'>
           {$lang === 'es'
-            ? '¿Quieres trabajar juntos?'
-            : 'Want to work together?'}
+            ? '¿Quieres trabajar conmigo?'
+            : 'Do you want to work with me?'}
         </p>
 
         {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
