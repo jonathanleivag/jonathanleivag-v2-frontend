@@ -316,3 +316,39 @@ export interface ResSocial {
   _id: ObjectId
   socials: Social[]
 }
+
+export interface ErrorMessageComponentProps {
+  message?: string
+  status?: number
+}
+
+export interface Pagination<T> extends ErrorMessageComponentProps {
+  docs: T[]
+  totalDocs: number
+  limit: number
+  totalPages: number
+  page: number
+  pagingCounter: number
+  hasPrevPage: boolean
+  hasNextPage: boolean
+  prevPage: null
+  nextPage: null
+}
+
+export interface Blog extends ErrorMessageComponentProps {
+  _id: string
+  title: string
+  content: string
+  description: string
+  image: string
+  published: boolean
+  slug: string
+  tags: string[]
+  views: number
+  readingTime: number
+  popular: boolean
+  user: User
+  category: Category
+  createdAt: Date
+  updatedAt: Date
+}
