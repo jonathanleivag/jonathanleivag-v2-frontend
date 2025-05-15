@@ -1,62 +1,33 @@
-import { type FC, useState, useRef } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { type FC, useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useInView } from 'framer-motion'
+import type { Blog, Pagination } from '../../../type'
+import { getENV } from '../../../utils/env.util.ts'
+import { ENV } from '../../../enum.ts'
 
 const BlogPageHomeComponent: FC = () => {
-  const [showAll, setShowAll] = useState(false)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
-  const blogPosts = [
-    {
-      id: 1,
-      title: 'Desarrollo Web Moderno',
-      excerpt: 'Explorando las últimas tendencias en desarrollo web...',
-      date: '2024-01-15',
-      category: 'Desarrollo',
-      image: '/images/web-development.jpg'
-    },
-    {
-      id: 2,
-      title: 'React y TypeScript',
-      excerpt: 'Mejores prácticas para trabajar con React y TypeScript...',
-      date: '2024-01-10',
-      category: 'Frontend',
-      image: '/images/react-typescript.jpg'
-    },
-    {
-      id: 3,
-      title: 'Node.js Backend Development',
-      excerpt: 'Building scalable backend services with Node.js and Express...',
-      date: '2024-01-08',
-      category: 'Backend',
-      image: '/images/nodejs-backend.jpg'
-    },
-    {
-      id: 4,
-      title: 'Docker & Containerization',
-      excerpt: 'Mastering container deployment and orchestration...',
-      date: '2024-01-05',
-      category: 'DevOps',
-      image: '/images/docker-containers.jpg'
-    },
-    {
-      id: 5,
-      title: 'GraphQL API Design',
-      excerpt: 'Best practices for designing efficient GraphQL APIs...',
-      date: '2024-01-03',
-      category: 'API',
-      image: '/images/graphql-api.jpg'
-    },
-    {
-      id: 6,
-      title: 'Cloud Architecture',
-      excerpt: 'Modern cloud solutions and architectural patterns...',
-      date: '2024-01-01',
-      category: 'Cloud',
-      image: '/images/cloud-architecture.jpg'
-    }
-  ]
+  const [data, setData] = useState<Blog[]>([])
 
-  const visiblePosts = showAll ? blogPosts : blogPosts.slice(0, 3)
+  useEffect(() => {
+    const dataFetch = async (): Promise<void> => {
+      try {
+        const response = await fetch('/api/blog', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        const data: Pagination<Blog> = await response.json()
+        setData(data.docs)
+      } catch (e) {
+        if (e instanceof Error) {
+          console.error(e.message)
+        }
+      }
+    }
+    void dataFetch()
+  }, [])
 
   return (
     <motion.section
@@ -80,9 +51,9 @@ const BlogPageHomeComponent: FC = () => {
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto'>
         <AnimatePresence>
-          {visiblePosts.map((post, index) => (
+          {data.map((post, index) => (
             <motion.article
-              key={post.id}
+              key={post._id}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               exit={{ opacity: 0, y: -20 }}
@@ -96,41 +67,47 @@ const BlogPageHomeComponent: FC = () => {
             >
               <div className='relative w-full h-48 mb-4 rounded-lg overflow-hidden'>
                 <img
-                  src='/favicon.svg'
+                  src={post.image}
                   alt={post.title}
                   className='w-full h-full object-cover hover:scale-110 transition-transform duration-300'
                 />
               </div>
               <span className='inline-block px-3 py-1 text-sm bg-purple-600 text-white rounded-full mb-4'>
-                {post.category}
+                {post.category.name}
               </span>
               <h3 className='text-xl font-semibold text-white mb-3'>
                 {post.title}
               </h3>
-              <p className='text-gray-300 mb-4'>{post.excerpt}</p>
+              <p className='text-gray-300 mb-4'>{post.description}</p>
               <div className='flex justify-between items-center'>
-                <span className='text-sm text-gray-400'>{post.date}</span>
-                <button className='text-purple-400 hover:text-purple-300 transition-colors'>
+                <span className='text-sm text-gray-400'>
+                  {post.createdAt.toString()}
+                </span>
+                <a
+                  target='_blank'
+                  href={`${getENV(ENV.BLOG_URL)}/blog/view/${post.slug}`}
+                  className='text-purple-400 hover:text-purple-300 transition-colors'
+                  rel='noreferrer'
+                >
                   Leer más →
-                </button>
+                </a>
               </div>
             </motion.article>
           ))}
         </AnimatePresence>
       </div>
-
-      {blogPosts.length > 3 && (
-        <motion.div className='text-center mt-10' whileTap={{ scale: 0.95 }}>
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className='px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full
+      <motion.div className='text-center mt-10' whileTap={{ scale: 0.95 }}>
+        <a
+          href={`${getENV(ENV.BLOG_URL)}`}
+          target='_blank'
+          rel='noreferrer'
+          className='px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full
                      transition-colors duration-300 font-semibold shadow-lg
                      hover:shadow-purple-500/30'
-          >
-            {showAll ? 'Ver menos' : 'Ver más'}
-          </button>
-        </motion.div>
-      )}
+        >
+          Ver más
+        </a>
+      </motion.div>
     </motion.section>
   )
 }
