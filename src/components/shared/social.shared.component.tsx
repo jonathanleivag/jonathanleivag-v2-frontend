@@ -11,6 +11,7 @@ const SocialSharedComponent: FC = () => {
         <>
           {data.socials
             .filter((s) => s.icon !== 'mail')
+            .filter((s) => s.icon !== 'web')
             .map((social, index) => (
               <a
                 key={`${social.name}-${index}`}
