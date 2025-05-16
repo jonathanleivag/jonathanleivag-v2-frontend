@@ -1,7 +1,8 @@
 export enum ENV {
   API_URL = 'API_URL',
   API_URL_BLOG = 'API_URL_BLOG',
-  BLOG_URL = 'PUBLIC_BLOG_URL'
+  BLOG_URL = 'PUBLIC_BLOG_URL',
+  PUBLIC_LANG = 'PUBLIC_LANG'
 }
 
 export enum LANGUAGE {
