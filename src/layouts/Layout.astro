@@ -1,22 +1,87 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import FooterSharedComponent from '../components/shared/footer.shared.component'
+import HeaderSharedComponent from '../components/shared/header.shared.component'
+import NavbarSharedComponent from '../components/shared/navbar.shared.component'
+import '../styles/global.css'
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+const {
+  title = "Jonathan Leiva | Desarrollador Web Full Stack",
+  description = "Portafolio de Jonathan Leiva, desarrollador web especializado en tecnologías modernas como Next.js, NestJS y Tailwind CSS.",
+  image = "https://www.jonathanleivag.cl/og-image.jpg",
+  url = "https://www.jonathanleivag.cl",
+  author = "Jonathan Leiva",
+  keywords = "desarrollo web, full stack, next.js, nestjs, tailwind css, desarrollador web, programador",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.ico' />
+    <meta name='generator' content={Astro.generator} />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={url} />
+    <meta property="og:locale" content="es_ES" />
+    <link rel="alternate" href={url} hreflang="es-ES" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={author} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image:alt" content={`Portafolio de ${author}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@jonathanleivag" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={`Portafolio de ${author}`} />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <style>
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Jonathan Leiva",
+        "url": "https://www.jonathanleivag.cl",
+        "image": "https://www.jonathanleivag.cl/og-image.jpg",
+        "jobTitle": "Desarrollador Web Full Stack",
+        "sameAs": [
+          "https://github.com/jonathanleivag",
+          "https://linkedin.com/in/jonathanleivag"
+        ]
+      }
+    </script>
+  </head>
+  <body class='min-h-screen flex flex-col bg-secondary text-white'>
+    <HeaderSharedComponent client:only>
+      <NavbarSharedComponent client:only />
+    </HeaderSharedComponent>
+    <main class='flex-1'>
+      <slot />
+    </main>
+    <FooterSharedComponent client:only />
+  </body>
+</html>
