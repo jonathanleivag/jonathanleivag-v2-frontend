@@ -1,0 +1,18 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "css.lint.unknownAtRules": "ignore",
+  "cSpell.language": "en, es",
+  "cSpell.words": [
+    "Contáctame",
+    "Iinfo",
+    "Iwork",
+    "jetbrains",
+    "jonathanleivag",
+    "Leiva",
+    "nanostores",
+    "tailwindcss",
+    "tsconfigs"
+  ],
+  "commentTranslate.hover.enabled": true
+}
