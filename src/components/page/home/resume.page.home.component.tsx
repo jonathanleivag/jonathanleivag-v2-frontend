@@ -1,13 +1,12 @@
-import type { FC } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { FaGraduationCap } from 'react-icons/fa'
-import { useRef } from 'react'
-import { useDataFetch } from '../../../hooks/useDataFetch.hook'
-import type { AboutMes } from '../../../type'
-import { isLanguage } from '../../../store'
-import { useStore } from '@nanostores/react'
-import { GiSkills } from 'react-icons/gi'
-import { MdCastForEducation } from 'react-icons/md'
+import {type FC, useEffect, useRef} from 'react'
+import {motion, useInView} from 'framer-motion'
+import {FaGraduationCap} from 'react-icons/fa'
+import {useDataFetch} from '../../../hooks/useDataFetch.hook'
+import type {AboutMes} from '../../../type'
+import {educationAll, isLanguage} from '../../../store'
+import {useStore} from '@nanostores/react'
+import {GiSkills} from 'react-icons/gi'
+import {MdCastForEducation} from 'react-icons/md'
 
 const ResumePageHomeComponent: FC = () => {
   const $lang = useStore(isLanguage)
@@ -18,6 +17,12 @@ const ResumePageHomeComponent: FC = () => {
   })
 
   const [data, loading] = useDataFetch<AboutMes>('about')
+
+  useEffect(() => {
+    if (!loading) {
+      educationAll.set(data.education.education)
+    }
+  }, [loading, data]);
 
   return (
     <section
