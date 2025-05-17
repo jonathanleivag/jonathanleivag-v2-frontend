@@ -1,14 +1,12 @@
-import { useEffect, useState, type FC } from 'react'
+import {type FC, useEffect, useState} from 'react'
 import LogoSharedComponent from './logo.shared.component'
-import { useDataFetch } from '../../hooks/useDataFetch.hook'
-import type {
-  MenuDesktopComponentProps,
-  MenuMobileComponentProps,
-  Navbar
-} from '../../type'
+import {useDataFetch} from '../../hooks/useDataFetch.hook'
+import type {MenuDesktopComponentProps, MenuMobileComponentProps, Navbar} from '../../type'
 import LanguageSharedComponent from './language.shared.component'
-import { TiThMenuOutline } from 'react-icons/ti'
-import { IoCloseSharp } from 'react-icons/io5'
+import {TiThMenuOutline} from 'react-icons/ti'
+import {IoCloseSharp} from 'react-icons/io5'
+import {getENV} from "../../utils/env.util.ts";
+import {ENV} from "../../enum.ts";
 
 const MenuDesktopComponent: FC<MenuDesktopComponentProps> = ({
   data,
@@ -41,9 +39,11 @@ const MenuDesktopComponent: FC<MenuDesktopComponentProps> = ({
             ))}
           </>
         )}
-        <li>
-          <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
-        </li>
+        {getENV(ENV.PUBLIC_LANG) === 'ON' && (
+          <li>
+            <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
+          </li>
+        )}
       </ul>
     </div>
   )

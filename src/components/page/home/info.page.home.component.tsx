@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef, type FC } from 'react'
-import type { AboutMes, technologies } from '../../../type'
-import { useDataFetch } from '../../../hooks/useDataFetch.hook'
-import { useStore } from '@nanostores/react'
-import { isLanguage } from '../../../store'
+import {type FC, useEffect, useRef, useState} from 'react'
+import type {AboutMes, technologies} from '../../../type'
+import {useDataFetch} from '../../../hooks/useDataFetch.hook'
+import {useStore} from '@nanostores/react'
+import {isLanguage, technologiesAll} from '../../../store'
 
 const InfoPageHomeComponent: FC = () => {
   const $lang = useStore(isLanguage)
@@ -81,6 +81,7 @@ const InfoPageHomeComponent: FC = () => {
           }))
       )
       setAllTechnologies(knowledge)
+      technologiesAll.set(knowledge)
       setTechnologies(getRandomElements(knowledge))
     }
     handlerSetTechnologies()
