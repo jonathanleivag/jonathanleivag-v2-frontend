@@ -1,11 +1,22 @@
-import type { FC } from 'react'
-import type { Header, HeaderSharedComponentProps } from '../../type'
-import { useDataFetch } from '../../hooks/useDataFetch.hook'
+import {type FC, useEffect} from 'react'
+import type {Header, HeaderSharedComponentProps} from '../../type'
+import {useDataFetch} from '../../hooks/useDataFetch.hook'
+import CvButtonSharedComponent from "./cvButton.shared.component.tsx";
+import {personalData} from "../../store.ts";
 
 const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
   children
 }) => {
   const [data, loading] = useDataFetch<Header>('header')
+
+  useEffect(() => {
+    if (!loading){
+      personalData.set({
+        name: data.name,
+        profession: data.subTitle
+      })
+    }
+  }, [loading, data]);
 
   return (
     <header
@@ -35,12 +46,7 @@ const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
           <h2 className='text-2xl lg:text-3xl text-white/80 max-w-2xl leading-relaxed mt-8 font-light'>
             {data.subTitle}
           </h2>
-          <button className='mt-12 cursor-pointer group relative px-8 py-3 text-lg overflow-hidden border border-primary/30 rounded-md'>
-            <span className='relative z-10 text-primary group-hover:text-background transition-colors duration-300'>
-              {data.buttonText}
-            </span>
-            <div className='absolute inset-0 bg-gradient-to-r from-primary to-secondary -translate-x-full group-hover:translate-x-0 transition-transform duration-300' />
-          </button>
+          <CvButtonSharedComponent text={data.buttonText} />
         </div>
       )}
     </header>
