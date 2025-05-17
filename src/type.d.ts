@@ -1,3 +1,5 @@
+import {RefObject} from 'react'
+
 export interface LanguageSharedComponentProps {
   className?: string
 }
@@ -351,4 +353,25 @@ export interface Blog extends ErrorMessageComponentProps {
   category: Category
   createdAt: Date
   updatedAt: Date
+}
+
+
+export interface  CvSButtonharedComponentProps {
+  text: string
+}
+
+export interface CVPersonalData {
+  name: string
+  profession: string
+
+}
+
+export interface CVCProfessionalProfile {
+  content: string
+  experience: string
+  specialties: string
+}
+
+export interface CvSharedComponentProps {
+  cvRef: RefObject<HTMLDivElement | null>
 }

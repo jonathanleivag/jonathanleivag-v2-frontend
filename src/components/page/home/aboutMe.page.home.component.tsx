@@ -1,17 +1,18 @@
-import type { FC } from 'react'
-import { useDataFetch } from '../../../hooks/useDataFetch.hook'
-import type { AboutMes } from '../../../type'
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { useStore } from '@nanostores/react'
-import { isLanguage } from '../../../store'
+import {type FC, useEffect, useRef, useState} from 'react'
+import {useDataFetch} from '../../../hooks/useDataFetch.hook'
+import type {AboutMes} from '../../../type'
+import {motion, useInView} from 'framer-motion'
+import {useStore} from '@nanostores/react'
+import {isLanguage, professionalProfile, works} from '../../../store'
 import SocialSharedComponent from '../../shared/social.shared.component'
+import getMonthsDiff from "../../../utils/getMonthsDiff.util.ts";
 
 const AboutMePageHomeComponent: FC = () => {
   const $lang = useStore(isLanguage)
   const [data, loading] = useDataFetch<AboutMes>('about')
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const [year, setYear] = useState<number>(0)
 
   const container = {
     hidden: { opacity: 0 },
@@ -35,6 +36,27 @@ const AboutMePageHomeComponent: FC = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (!loading) {
+
+      const totalMonths = data.works.works.reduce((sum, job) => {
+        return sum + getMonthsDiff(job.dateStart, job.dateEnd);
+      }, 0);
+      const totalYears = (totalMonths / 12).toFixed(0);
+
+      setYear(Number(totalYears));
+
+      professionalProfile.set({
+        content: data.description,
+        experience: totalYears,
+        specialties: 'Frontend & Backend / JS'
+      })
+
+      works.set(data.works.works)
+    }
+  }, [loading, data]);
+
 
   return (
     <motion.section
@@ -75,6 +97,7 @@ const AboutMePageHomeComponent: FC = () => {
               <div className='relative w-full aspect-square overflow-hidden rounded-3xl border border-white/10'>
                 <img
                   src={data.image}
+                  alt={data.description}
                   className='object-cover w-full h-full transform transition-transform duration-700 group-hover:scale-110'
                 />
                 <SocialSharedComponent />
@@ -107,8 +130,8 @@ const AboutMePageHomeComponent: FC = () => {
                     </h3>
                     <p className='text-base sm:text-lg text-foreground/80'>
                       {$lang === 'es'
-                        ? '3 años de experiencia'
-                        : '3 years of experience'}
+                        ? `+${year} años de experiencia`
+                        : `+${year} years of experience`}
                     </p>
                   </motion.div>
                 </div>
@@ -124,8 +147,8 @@ const AboutMePageHomeComponent: FC = () => {
                     </h3>
                     <p className='text-base sm:text-lg text-foreground/80'>
                       {$lang === 'es'
-                        ? 'Frontend & Backend'
-                        : 'Frontend & Backend'}
+                        ? 'Frontend & Backend / JS'
+                        : 'Frontend & Backend / JS'}
                     </p>
                   </motion.div>
                 </div>
