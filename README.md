@@ -1,4 +1,4 @@
-# README para jonathanleivag-v2-frontend
+# Jonathanleivag-v2-frontend
 ## Descripción
 Frontend de la versión 2 del sitio web personal utilizando Astro y React con TypeScript. Este proyecto implementa un sitio web moderno con funcionalidades de blog y portfolio.
 ## Tecnologías Principales
