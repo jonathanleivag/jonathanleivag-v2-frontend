@@ -1,12 +1,10 @@
-import type { APIRoute } from 'astro'
-import { getENV } from '../../../utils/env.util.ts'
-import { ENV } from '../../../enum.ts'
-import type { Pagination } from '../../../type'
+import type {APIRoute} from 'astro'
+import type {Pagination} from '../../../type'
 
 export const GET: APIRoute = async () => {
   try {
     const response = await fetch(
-      `${getENV(ENV.API_URL_BLOG)}/blog?page=1&limit=3&published=true&popular=true`,
+      `https://apiblog.jonathanleivag.cl/blog?page=1&limit=3&published=true&popular=true`,
       {
         method: 'GET',
         headers: {
@@ -14,7 +12,7 @@ export const GET: APIRoute = async () => {
         }
       }
     )
-    
+
     if (!response.ok) {
       throw new Error('Error occurred')
     }
