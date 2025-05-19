@@ -180,11 +180,9 @@ const NavbarSharedComponent: FC = () => {
           </div>
           {!isOpen && <LogoSharedComponent className='lg:hidden absolute' />}
           <MenuDesktopComponent data={data} loading={loading} />
-          {getENV(ENV.PUBLIC_LANG) === 'ON' && (
               <div className='py-1 lg:hidden'>
                 <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
               </div>
-          )}
         </div>
       </nav>
     </>
