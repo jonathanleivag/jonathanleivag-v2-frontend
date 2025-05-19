@@ -1,7 +1,5 @@
 import type {APIRoute} from 'astro'
 import type {IFormInput, Res} from "../../../type";
-import {getENV} from "../../../utils/env.util.ts";
-import {ENV} from "../../../enum.ts";
 
 export const prerender = false;
 
@@ -10,7 +8,7 @@ export const POST: APIRoute = async ({request}) => {
         const body = await request.json() as IFormInput
 
         const response = await fetch(
-            `${getENV(ENV.API_URL)}/contact/send/email`,
+            `https://api.jonathanleivag.cl/api/contact/send/email`,
             {
                 method: 'POST',
                 headers: {
