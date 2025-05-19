@@ -1,7 +1,6 @@
-import type { APIRoute, GetStaticPaths } from 'astro'
-import { ENV, ROUTER_WITHOUT_LANGUAGE } from '../../../../enum'
-import { getENV } from '../../../../utils/env.util'
-import type { Res } from '../../../../type'
+import type {APIRoute, GetStaticPaths} from 'astro'
+import {ROUTER_WITHOUT_LANGUAGE} from '../../../../enum'
+import type {Res} from '../../../../type'
 
 export const GET: APIRoute = async ({ params }) => {
   try {
@@ -11,7 +10,7 @@ export const GET: APIRoute = async ({ params }) => {
       throw new Error('Router or language is not defined')
     }
 
-    const response = await fetch(`${getENV(ENV.API_URL)}/${router}`, {
+    const response = await fetch(`https://api.jonathanleivag.cl/api/${router}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

@@ -1,7 +1,6 @@
-import type { APIRoute, GetStaticPaths } from 'astro'
-import { ENV, LANGUAGE, ROUTER } from '../../../../enum'
-import { getENV } from '../../../../utils/env.util'
-import type { Res } from '../../../../type'
+import type {APIRoute, GetStaticPaths} from 'astro'
+import {LANGUAGE, ROUTER} from '../../../../enum'
+import type {Res} from '../../../../type'
 
 export const GET: APIRoute = async ({ params }) => {
   try {
@@ -12,7 +11,7 @@ export const GET: APIRoute = async ({ params }) => {
     }
 
     const response = await fetch(
-      `${getENV(ENV.API_URL)}/${router}?lang=${lang}`,
+      `https://api.jonathanleivag.cl/api/${router}?lang=${lang}`,
       {
         method: 'GET',
         headers: {
