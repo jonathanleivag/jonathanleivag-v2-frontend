@@ -7,6 +7,7 @@ import {TiThMenuOutline} from 'react-icons/ti'
 import {IoCloseSharp} from 'react-icons/io5'
 import {getENV} from "../../utils/env.util.ts";
 import {ENV} from "../../enum.ts";
+import {AnimatePresence, motion} from 'framer-motion'
 
 const MenuDesktopComponent: FC<MenuDesktopComponentProps> = ({
   data,
@@ -21,31 +22,99 @@ const MenuDesktopComponent: FC<MenuDesktopComponentProps> = ({
     element?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const createRippleEffect = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const button = e.currentTarget;
+    const rect = button.getBoundingClientRect();
+
+    const circle = document.createElement("span");
+    const diameter = Math.max(rect.width, rect.height);
+    const radius = diameter / 2;
+
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${e.clientX - rect.left - radius}px`;
+    circle.style.top = `${e.clientY - rect.top - radius}px`;
+
+    circle.classList.add("ripple-effect");
+
+    const ripple = button.querySelector(".ripple-effect");
+    if (ripple) {
+      ripple.remove();
+    }
+
+    button.appendChild(circle);
+
+    setTimeout(() => {
+      circle.remove();
+    }, 600);
+  };
+
   return (
-    <div className='w-[80%] h-full flex flex-row justify-end items-center'>
-      <ul className='flex-row gap-6 justify-center items-center text-xl hidden lg:flex'>
-        {!loading && (
-          <>
-            {data.nav.map((nav, index) => (
-              <li key={`${nav.nav}-${index}`}>
-                <a
-                  href={`#${nav.router}`}
-                  onClick={(e) => handleClick(e, nav.router)}
-                  className='relative'
+    <>
+      <style>
+        {`
+          .nav-link {
+            position: relative;
+            overflow: hidden;
+            padding: 6px 12px;
+            border-radius: 4px;
+          }
+          
+          .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+          }
+          
+          @keyframes ripple {
+            to {
+              transform: scale(4);
+              opacity: 0;
+            }
+          }
+        `}
+      </style>
+      <div className='w-[80%] h-full flex flex-row justify-end items-center'>
+        <ul className='flex-row gap-6 justify-center items-center text-xl hidden lg:flex'>
+          {!loading && (
+            <>
+              {data.nav.map((nav, index) => (
+                <motion.li
+                  key={`${nav.nav}-${index}`}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
-                  {nav.nav}
-                </a>
-              </li>
-            ))}
-          </>
-        )}
-        {getENV(ENV.PUBLIC_LANG) === 'ON' && (
-          <li>
-            <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
-          </li>
-        )}
-      </ul>
-    </div>
+                  <motion.a
+                    href={`#${nav.router}`}
+                    onClick={(e) => {
+                      createRippleEffect(e);
+                      handleClick(e, nav.router);
+                    }}
+                    className='relative nav-link'
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95, backgroundColor: "rgba(var(--primary), 0.1)" }}
+                  >
+                    {nav.nav}
+                  </motion.a>
+                </motion.li>
+              ))}
+            </>
+          )}
+          {getENV(ENV.PUBLIC_LANG) === 'ON' && (
+            <motion.li
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: data.nav.length * 0.1 }}
+            >
+              <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
+            </motion.li>
+          )}
+        </ul>
+      </div>
+    </>
   )
 }
 
@@ -69,54 +138,72 @@ const MenuMobileComponent: FC<MenuMobileComponentProps> = ({
   }
 
   return (
-    <section
-      className={`fixed z-50 top-0 left-0 w-full h-full bg-background transition-transform duration-300 bg-secondary/90 lg:hidden ${
-        isOpen ? 'translate-y-0' : '-translate-y-full'
-      }`}
-    >
-      <div className='w-full h-full relative'>
-        <div className='top-8 left-8 w-auto absolute'>
-          <button
-            onClick={() => setIsOpen(false)}
-            className='text-4xl text-primary transition-transform duration-300'
-          >
-            <IoCloseSharp
-              className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
-            />
-          </button>
-        </div>
-        <div className='w-full py-10  flex flex-row justify-center items-center'>
-          <LogoSharedComponent className='block lg:hidden' />
-        </div>
-        <div className='w-full'>
-          <ul className='w-full flex flex-col text-center justify-center items-center text-4xl gap-8'>
-            {!loading && (
-              <>
-                {data.nav.map((nav, index) => (
-                  <li
-                    style={{ transitionDelay: `${index * 150}ms` }}
-                    className={`py-3 transition-all duration-500 ${
-                      isOpen
-                        ? 'translate-x-0 opacity-100'
-                        : '-translate-x-full opacity-0'
-                    }`}
-                    key={`${nav.nav}-${index}`}
-                  >
-                    <a
-                      href={`#${nav.router}`}
-                      onClick={(e) => handleClick(e, nav.router)}
-                      className='transition-colors'
-                    >
-                      {nav.nav}
-                    </a>
-                  </li>
-                ))}
-              </>
-            )}
-          </ul>
-        </div>
-      </div>
-    </section>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.section
+          className="fixed z-50 top-0 left-0 w-full h-full bg-secondary/90 lg:hidden"
+          initial={{ y: '-100%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '-100%' }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
+          <div className='w-full h-full relative'>
+            <div className='top-8 left-8 w-auto absolute'>
+              <motion.button
+                onClick={() => setIsOpen(false)}
+                className='text-4xl text-primary'
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                animate={{ rotate: 180 }}
+                initial={{ rotate: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <IoCloseSharp />
+              </motion.button>
+            </div>
+            <motion.div
+              className='w-full py-10 flex flex-row justify-center items-center'
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <LogoSharedComponent className='block lg:hidden' />
+            </motion.div>
+            <div className='w-full'>
+              <ul className='w-full flex flex-col text-center justify-center items-center text-4xl gap-8'>
+                {!loading && (
+                  <>
+                    {data.nav.map((nav, index) => (
+                      <motion.li
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.1,
+                          ease: "easeOut"
+                        }}
+                        className="py-3"
+                        key={`${nav.nav}-${index}`}
+                      >
+                        <motion.a
+                          href={`#${nav.router}`}
+                          onClick={(e) => handleClick(e, nav.router)}
+                          className='transition-colors'
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {nav.nav}
+                        </motion.a>
+                      </motion.li>
+                    ))}
+                  </>
+                )}
+              </ul>
+            </div>
+          </div>
+        </motion.section>
+      )}
+    </AnimatePresence>
   )
 }
 
@@ -144,15 +231,6 @@ const NavbarSharedComponent: FC = () => {
     document.body.style.overflow = 'auto'
   }
 
-  useEffect(() => {
-    const handleScroll = (): void => {
-      setHasScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <>
       <MenuMobileComponent
@@ -161,32 +239,55 @@ const NavbarSharedComponent: FC = () => {
         data={data}
         loading={loading}
       />
-      <nav
-        className={`fixed top-0 left-0 w-full h-[6.25rem] flex flex-row justify-center items-center z-40 transition-all duration-300 ${
-          hasScrolled ? 'bg-background/80 backdrop-blur-sm' : 'bg-transparent'
-        }`}
+      <motion.nav
+        className="fixed top-0 left-0 w-full h-[6.25rem] flex flex-row justify-center items-center z-40"
+        initial={{ backgroundColor: 'rgba(0,0,0,0)' }}
+        animate={{
+          backgroundColor: hasScrolled ? 'rgba(var(--background), 0.8)' : 'rgba(0,0,0,0)',
+          backdropFilter: hasScrolled ? 'blur(8px)' : 'blur(0px)'
+        }}
+        transition={{ duration: 0.3 }}
       >
         <div className='h-[4.375rem] w-[90%] flex flex-row justify-center items-center'>
-          <div className='w-[20%] h-full flex flex-row justify-center items-center overflow-hidden'>
+          <motion.div
+            className='w-[20%] h-full flex flex-row justify-center items-center overflow-hidden'
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <LogoSharedComponent className='hidden lg:block' />
-            <button
+            <motion.button
               onClick={handlerIsOpen}
-              className={`lg:hidden transition-all duration-300 ${
-                isOpen ? 'rotate-180 opacity-0' : 'rotate-0 opacity-100'
-              }`}
+              className="lg:hidden"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <TiThMenuOutline className='text-primary text-4xl' />
-            </button>
-          </div>
-          {!isOpen && <LogoSharedComponent className='lg:hidden absolute' />}
+            </motion.button>
+          </motion.div>
+          {!isOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden absolute"
+            >
+              <LogoSharedComponent />
+            </motion.div>
+          )}
           <MenuDesktopComponent data={data} loading={loading} />
           {getENV(ENV.PUBLIC_LANG) === 'ON' && (
-              <div className='py-1 lg:hidden'>
-                <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
-              </div>
+            <motion.div
+              className='py-1 lg:hidden'
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <LanguageSharedComponent className='border border-primary rounded-lg p-2 uppercase' />
+            </motion.div>
           )}
         </div>
-      </nav>
+      </motion.nav>
     </>
   )
 }
