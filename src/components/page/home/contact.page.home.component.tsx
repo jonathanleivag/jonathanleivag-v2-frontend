@@ -8,7 +8,7 @@ import type {IFormInput} from '../../../type'
 import {toast, Toaster} from "react-hot-toast";
 
 const ContactPageHomeComponent: FC = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false) // Estado para controlar la carga
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const {
     register,
     handleSubmit,
@@ -19,7 +19,7 @@ const ContactPageHomeComponent: FC = () => {
 
   const onSubmit = async (form: IFormInput): Promise<void> => {
       try {
-        setIsSubmitting(true) // Activamos el estado de carga
+        setIsSubmitting(true)
         const response = await fetch('/api/contact',  {
           method: 'POST',
 
@@ -159,8 +159,8 @@ const ContactPageHomeComponent: FC = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type='submit'
-            disabled={isSubmitting} // Deshabilitamos el botón mientras se envía
-            className='w-full py-4 px-6 rounded-xl bg-gradient-to-r from-primary to-purple-500 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20'
+            disabled={isSubmitting}
+            className='w-full py-4 px-6 rounded-xl bg-gradient-to-r from-primary to-purple-500 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20 cursor-pointer'
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center">
