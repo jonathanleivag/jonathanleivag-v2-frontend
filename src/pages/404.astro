@@ -1,0 +1,17 @@
+---
+import LayoutEmpty from "../layouts/LayoutEmpty.astro";
+---
+
+<LayoutEmpty title="404: Página no encontrada">
+  <section class="flex flex-col items-center justify-center min-h-screen bg-secondary text-white px-4">
+    <div class="text-center max-w-xl">
+      <h1 class="text-9xl font-bold text-primary">404</h1>
+      <div class="w-full h-1 bg-primary/30 my-6"></div>
+      <h2 class="text-3xl font-semibold mb-4">Página no encontrada</h2>
+      <p class="text-lg mb-8">Lo sentimos, la página que estás buscando no existe o ha sido movida.</p>
+      <a href="/" class="inline-block bg-primary text-secondary font-medium px-6 py-3 rounded-lg hover:opacity-90 transition-all">
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+</LayoutEmpty>
