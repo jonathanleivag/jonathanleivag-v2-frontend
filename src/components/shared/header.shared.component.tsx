@@ -3,6 +3,36 @@ import type {Header, HeaderSharedComponentProps} from '../../type'
 import {useDataFetch} from '../../hooks/useDataFetch.hook'
 import CvButtonSharedComponent from "./cvButton.shared.component.tsx";
 import {personalData} from "../../store.ts";
+import {motion} from 'framer-motion';
+
+const fromLeftVariant = {
+  hidden: { opacity: 0, x: -50 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7 } }
+};
+
+const scaleVariant = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } }
+};
+
+const rotateVariant = {
+  hidden: { opacity: 0, rotate: -5 },
+  visible: { opacity: 1, rotate: 0, transition: { duration: 0.5 } }
+};
+
+// Definir una variante combinada
+const combinedVariant = {
+  hidden: { opacity: 0, x: -30, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut"
+    }
+  }
+};
 
 const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
   children
@@ -17,6 +47,16 @@ const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
       })
     }
   }, [loading, data]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3
+      }
+    }
+  };
 
   return (
     <header
@@ -36,18 +76,43 @@ const HeaderSharedComponent: FC<HeaderSharedComponentProps> = ({
       </div>
 
       {!loading && (
-        <div className='container mx-auto px-4 text-left relative z-10 mt-28'>
-          <p className='text-primary text-xl lg:text-3xl mb-6 font-light tracking-[0.2em] uppercase'>
+        <motion.div
+          className='container mx-auto px-4 text-left relative z-10 mt-28'
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+
+          <motion.p
+            className='text-primary text-xl lg:text-3xl mb-6 font-light tracking-[0.2em] uppercase'
+            variants={combinedVariant}
+          >
             {data.title}
-          </p>
-          <h1 className='text-4xl md:text-7xl lg:text-[8.5rem] font-bold leading-none mb-8 bg-gradient-to-r from-white via-primary/80 to-white bg-clip-text text-transparent max-w-5xl'>
+          </motion.p>
+          <motion.h1
+            className='text-4xl md:text-7xl lg:text-[8.5rem] font-bold leading-none mb-8 bg-gradient-to-r from-white via-primary/80 to-white bg-clip-text text-transparent max-w-5xl'
+            variants={scaleVariant}
+            whileHover={{ scale: 1.05 }}  // Efecto adicional al pasar el mouse
+            transition={{ duration: 0.3 }}
+          >
             {data.name}.
-          </h1>
-          <h2 className='text-2xl lg:text-3xl text-white/80 max-w-2xl leading-relaxed mt-8 font-light'>
-            {data.subTitle}
-          </h2>
-          <CvButtonSharedComponent text={data.buttonText} />
-        </div>
+          </motion.h1>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.h2
+              className='text-2xl lg:text-3xl text-white/80 max-w-2xl leading-relaxed mt-8 font-light'
+              variants={rotateVariant}
+            >
+              {data.subTitle}
+            </motion.h2>
+            <motion.div variants={fromLeftVariant}>
+              <CvButtonSharedComponent text={data.buttonText} />
+            </motion.div>
+          </motion.div>
+        </motion.div>
       )}
     </header>
   )
