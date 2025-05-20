@@ -1,4 +1,5 @@
 import type {FC} from 'react'
+import {useState} from 'react' // Importamos useState
 import {motion} from 'framer-motion'
 import {useForm} from 'react-hook-form'
 import {useStore} from '@nanostores/react'
@@ -7,6 +8,7 @@ import type {IFormInput} from '../../../type'
 import {toast, Toaster} from "react-hot-toast";
 
 const ContactPageHomeComponent: FC = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false) // Estado para controlar la carga
   const {
     register,
     handleSubmit,
@@ -17,6 +19,7 @@ const ContactPageHomeComponent: FC = () => {
 
   const onSubmit = async (form: IFormInput): Promise<void> => {
       try {
+        setIsSubmitting(true) // Activamos el estado de carga
         const response = await fetch('/api/contact',  {
           method: 'POST',
 
@@ -34,6 +37,8 @@ const ContactPageHomeComponent: FC = () => {
           console.error(e.message)
           toast.error(e.message)
         }
+      } finally {
+        setIsSubmitting(false)
       }
   }
 
@@ -154,9 +159,21 @@ const ContactPageHomeComponent: FC = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type='submit'
+            disabled={isSubmitting} // Deshabilitamos el botón mientras se envía
             className='w-full py-4 px-6 rounded-xl bg-gradient-to-r from-primary to-purple-500 text-white font-medium hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20'
           >
-            {$lang === 'es' ? 'Enviar mensaje' : 'Send Message'} ✨
+            {isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  className="mr-2 h-5 w-5 border-2 border-white border-t-transparent rounded-full"
+                />
+                <span>{$lang === 'es' ? 'Enviando...' : 'Sending...'}</span>
+              </div>
+            ) : (
+              <>{$lang === 'es' ? 'Enviar mensaje' : 'Send Message'} ✨</>
+            )}
           </motion.button>
         </form>
       </motion.div>
