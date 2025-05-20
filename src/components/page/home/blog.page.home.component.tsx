@@ -1,8 +1,8 @@
-import { type FC, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView } from 'framer-motion'
-import type { Blog, Pagination } from '../../../type'
-import { getENV } from '../../../utils/env.util.ts'
-import { ENV } from '../../../enum.ts'
+import {type FC, useEffect, useRef, useState} from 'react'
+import {AnimatePresence, motion, useInView} from 'framer-motion'
+import type {Blog, Pagination} from '../../../type'
+import {getENV} from '../../../utils/env.util.ts'
+import {ENV} from '../../../enum.ts'
 
 const BlogPageHomeComponent: FC = () => {
   const ref = useRef(null)
@@ -98,7 +98,7 @@ const BlogPageHomeComponent: FC = () => {
       </div>
       <motion.div className='text-center mt-10' whileTap={{ scale: 0.95 }}>
         <a
-          href={`${getENV(ENV.BLOG_URL)}`}
+          href={`${getENV(ENV.BLOG_URL)}/blog`}
           target='_blank'
           rel='noreferrer'
           className='px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full
